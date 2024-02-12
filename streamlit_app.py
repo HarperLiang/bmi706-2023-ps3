@@ -50,13 +50,13 @@ st.write("## Age-specific cancer mortality rates")
 # ### P2.1 ###
 
 
-### P2.2 ###
-# replace with st.radio
-sex = st.radio("Select Sex:", ('All', 'M', 'F'))
+# ### P2.2 ###
+# # replace with st.radio
+# sex = st.radio("Select Sex:", ('All', 'M', 'F'))
 
-if sex != 'All':
-    subset = subset[subset["Sex"] == sex]
-### P2.2 ###
+# if sex != 'All':
+#     subset = subset[subset["Sex"] == sex]
+# ### P2.2 ###
 
 
 ### P2.3 ###
