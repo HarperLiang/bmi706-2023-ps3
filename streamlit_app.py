@@ -39,8 +39,8 @@ df = load_data()
 st.write("## Age-specific cancer mortality rates")
 
 ### P2.1 ###
-min_year = df["Year"].min()
-max_year = df["Year"].max()
+min_year = int(df['Year'].min())
+max_year = int(df['Year'].max())
 
 # Create a slider for selecting the year, with the default value set to the most recent year
 year = st.slider('Select a year:', min_value=min_year, max_year=max_year, value=max_year)
