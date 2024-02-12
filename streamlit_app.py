@@ -20,16 +20,12 @@ def load_data():
 
     df = pd.merge(left=cancer_df, right=pop_df, how="left", on=["Country", "Year", "Sex", "Age"])
 
-    # Backfill population data where necessary
     df["Pop"] = df.groupby(["Country", "Sex", "Age"])["Pop"].fillna(method="bfill")
 
-    # Drop rows with missing values
     df.dropna(inplace=True)
 
-    # Group by the relevant columns and sum the deaths and population
     df = df.groupby(["Country", "Year", "Cancer", "Age", "Sex"]).sum().reset_index()
 
-    # Calculate the death rate per 100,000 population
     df["Rate"] = df["Deaths"] / df["Pop"] * 100_000
 
     return df
@@ -39,7 +35,6 @@ def load_data():
 df = load_data()
 
 ### P1.2 ###
-
 
 st.write("## Age-specific cancer mortality rates")
 
