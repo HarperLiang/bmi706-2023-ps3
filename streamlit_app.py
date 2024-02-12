@@ -61,7 +61,7 @@ st.write("## Age-specific cancer mortality rates")
 
 ### P2.3 ###
 # replace with st.multiselect
-    country_list = df['Country'].unique()
+country_list = df['Country'].unique()
 
 # Set up the multiselect widget with the list of countries. 
 # Use the existing countries as the default selection.
