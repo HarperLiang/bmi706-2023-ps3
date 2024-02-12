@@ -38,16 +38,16 @@ df = load_data()
 
 st.write("## Age-specific cancer mortality rates")
 
-### P2.1 ###
-min_year = int(df['Year'].min())
-max_year = int(df['Year'].max())
+# ### P2.1 ###
+# min_year = int(df['Year'].min())
+# max_year = int(df['Year'].max())
 
-# Create a slider for selecting the year, with the default value set to the most recent year
-year = st.slider('Select a year:', min_value=min_year, max_year=max_year, value=max_year)
+# # Create a slider for selecting the year, with the default value set to the most recent year
+# year = st.slider('Select a year:', min_value=min_year, max_year=max_year, value=max_year)
 
-# Filter the dataframe to the selected year
-subset = df[df["Year"] == year]
-### P2.1 ###
+# # Filter the dataframe to the selected year
+# subset = df[df["Year"] == year]
+# ### P2.1 ###
 
 
 ### P2.2 ###
