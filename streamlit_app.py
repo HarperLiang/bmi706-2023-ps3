@@ -5,17 +5,7 @@ import streamlit as st
 ### P1.2 ###
 
 # Move this code into `load_data` function {{
-cancer_df = pd.read_csv("https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/cancer_ICD10.csv").melt(  # type: ignore
-    id_vars=["Country", "Year", "Cancer", "Sex"],
-    var_name="Age",
-    value_name="Deaths",
-)
 
-pop_df = pd.read_csv("https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/population.csv").melt(  # type: ignore
-    id_vars=["Country", "Year", "Sex"],
-    var_name="Age",
-    value_name="Pop",
-)
 
 df = pd.merge(left=cancer_df, right=pop_df, how="left")
 df["Pop"] = df.groupby(["Country", "Sex", "Age"])["Pop"].fillna(method="bfill")
@@ -29,13 +19,37 @@ df["Rate"] = df["Deaths"] / df["Pop"] * 100_000
 
 @st.cache
 def load_data():
-    ## {{ CODE HERE }} ##
-    df = ...  # remove this line
-    return df
+    cancer_df = pd.read_csv("https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/cancer_ICD10.csv").melt(  # type: ignore
+    id_vars=["Country", "Year", "Cancer", "Sex"],
+    var_name="Age",
+    value_name="Deaths",
+)
+
+pop_df = pd.read_csv("https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/population.csv").melt(  # type: ignore
+    id_vars=["Country", "Year", "Sex"],
+    var_name="Age",
+    value_name="Pop",
+)
+
+df = pd.merge(left=cancer_df, right=pop_df, how="left", on=["Country", "Year", "Sex", "Age"])
+
+# Backfill population data where necessary
+df["Pop"] = df.groupby(["Country", "Sex", "Age"])["Pop"].fillna(method="bfill")
+
+# Drop rows with missing values
+df.dropna(inplace=True)
+
+# Group by the relevant columns and sum the deaths and population
+df = df.groupby(["Country", "Year", "Cancer", "Age", "Sex"]).sum().reset_index()
+
+# Calculate the death rate per 100,000 population
+df["Rate"] = df["Deaths"] / df["Pop"] * 100_000
+
+return df
 
 
 # Uncomment the next line when finished
-# df = load_data()
+df = load_data()
 
 ### P1.2 ###
 
