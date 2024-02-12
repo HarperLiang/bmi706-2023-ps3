@@ -7,12 +7,12 @@ import streamlit as st
 # Move this code into `load_data` function {{
 
 
-df = pd.merge(left=cancer_df, right=pop_df, how="left")
-df["Pop"] = df.groupby(["Country", "Sex", "Age"])["Pop"].fillna(method="bfill")
-df.dropna(inplace=True)
+#df = pd.merge(left=cancer_df, right=pop_df, how="left")
+#df["Pop"] = df.groupby(["Country", "Sex", "Age"])["Pop"].fillna(method="bfill")
+##df.dropna(inplace=True)
 
-df = df.groupby(["Country", "Year", "Cancer", "Age", "Sex"]).sum().reset_index()
-df["Rate"] = df["Deaths"] / df["Pop"] * 100_000
+#df = df.groupby(["Country", "Year", "Cancer", "Age", "Sex"]).sum().reset_index()
+#df["Rate"] = df["Deaths"] / df["Pop"] * 100_000
 
 # }}
 
