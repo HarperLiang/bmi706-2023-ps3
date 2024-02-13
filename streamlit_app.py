@@ -39,39 +39,39 @@ st.write("## Age-specific cancer mortality rates")
 ### P2.1 ###
 
 year = st.slider('Year', min_value=int(df['Year'].min()), max_value=int(df['Year'].max()), value=int(df['Year'].max()), step=1, format='%d')
-
-# Filter the dataframe to the selected year
 subset = df[df["Year"] == year]
+
 ### P2.1 ###
 
 
 ### P2.2 ###
-# replace with st.radio
-sex = st.radio("Sex", options=df['Sex'].unique())
 
-df_filtered = df[(df['Year'] == year) & (df['Sex'] == sex)]
+sex = st.radio("Sex", options=df['Sex'].unique())
+subset = subset[subset["Sex"] == sex]
+
 ### P2.2 ###
 
 
 ### P2.3 ###
-# replace with st.multiselect
+
 country_list = df['Country'].unique()
 
-# Set up the multiselect widget with the list of countries. 
-
-countries = st.multiselect("Select countries:", options=country_list, default=[
+countries = st.multiselect("Countries", options=country_list, default=[
     "Austria", "Germany", "Iceland", "Spain", "Sweden", "Thailand", "Turkey"
 ])
+subset = subset[subset["Country"].isin(countries)]
 
 ### P2.3 ###
 
 
 ### P2.4 ###
-cancer_type = st.selectbox('Cancer Type', options=df['Cancer'].unique())
+
+cancer_type = st.selectbox('Cancer', options=df['Cancer'].unique())
+subset = subset[subset["Cancer"] == cancer_type]
 
 ### P2.4 ###
 
-subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) & (df['Country'].isin(countries))]
+# subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) & (df['Country'].isin(countries))]
 
 # ### P2.5 ###
 ages = [
