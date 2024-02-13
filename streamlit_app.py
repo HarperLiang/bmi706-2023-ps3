@@ -95,7 +95,7 @@ ages = [
 heatmap = alt.Chart(subset).mark_rect().encode(
     alt.X('Age:O', sort=ages),
     alt.Y('Country:N', sort=alt.EncodingSortField(field='Rate', order='descending')),
-    alt.Color('Rate', scale=alt.Scale(type='log', scheme='viridis'), legend=alt.Legend(title='Mortality rate per 100k')),
+    alt.Color('Rate', scale=alt.Scale(type='log', domain=(0.01,1000), clamp=True), legend=alt.Legend(title='Mortality rate per 100k')),
     tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate',format='.2f')]
 ).properties(
     title=f"{cancer_type} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
