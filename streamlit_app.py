@@ -69,7 +69,7 @@ cancer_type = st.selectbox('Cancer', options=df['Cancer'].unique())
 
 subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) 
 
-# ### P2.5 ###
+### P2.5 ###
 ages = [
     "Age <5",
     "Age 5-14",
