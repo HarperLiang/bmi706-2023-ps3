@@ -38,20 +38,19 @@ st.write("## Age-specific cancer mortality rates")
 
 ### P2.1 ###
 
-year = st.slider('Year', min_value=1994, max_year=2020, value=2012)
+year = st.slider('Year', min_value=1994, max_year=2020, value=2012, step=1)
 
 # Filter the dataframe to the selected year
 subset = df[df["Year"] == year]
 ### P2.1 ###
 
 
-# ### P2.2 ###
-# # replace with st.radio
-# sex = st.radio("Select Sex:", ('All', 'M', 'F'))
+### P2.2 ###
+# replace with st.radio
+sex = st.radio("Sex", options=df['Sex'].unique())
 
-# if sex != 'All':
-#     subset = subset[subset["Sex"] == sex]
-# ### P2.2 ###
+df_filtered = df[(df['Year'] == year) & (df['Sex'] == sex)]
+### P2.2 ###
 
 
 ### P2.3 ###
@@ -59,52 +58,22 @@ subset = df[df["Year"] == year]
 country_list = df['Country'].unique()
 
 # Set up the multiselect widget with the list of countries. 
-# Use the existing countries as the default selection.
+
 countries = st.multiselect("Select countries:", options=country_list, default=[
     "Austria", "Germany", "Iceland", "Spain", "Sweden", "Thailand", "Turkey"
 ])
 
-subset = subset[subset["Country"].isin(countries)]
 ### P2.3 ###
 
 
 ### P2.4 ###
-cancer_types = df['Cancer'].unique()
+cancer_type = st.selectbox('Cancer Type', options=df['Cancer'].unique())
 
-# Set up the dropdown widget with the list of cancer types.
-# The default selection is 'Malignant neoplasm of stomach'.
-cancer = st.selectbox("Select cancer type:", options=cancer_types, index=list(cancer_types).index('Malignant neoplasm of stomach'))
-
-# Filter the subset dataframe for the selected cancer type
-subset = subset[subset["Cancer"] == cancer]
 ### P2.4 ###
 
+subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) & (df['Country'].isin(countries))]
 
 # ### P2.5 ###
-# ages = [
-#     "Age <5",
-#     "Age 5-14",
-#     "Age 15-24",
-#     "Age 25-34",
-#     "Age 35-44",
-#     "Age 45-54",
-#     "Age 55-64",
-#     "Age >64",
-# ]
-
-# chart = alt.Chart(subset).mark_bar().encode(
-#     x=alt.X("Age", sort=ages),
-#     y=alt.Y("Rate", title="Mortality rate per 100k"),
-#     color="Country",
-#     tooltip=["Rate"],
-# ).properties(
-#     title=f"{cancer} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
-# )
-# ### P2.5 ###
-
-### P2.5 ###
-
-# Assuming 'ages' list remains the same as provided
 ages = [
     "Age <5",
     "Age 5-14",
@@ -116,21 +85,15 @@ ages = [
     "Age >64",
 ]
 
-# Modify the chart to create a heatmap
-chart = alt.Chart(subset).mark_rect().encode(
-    x=alt.X('Age:O', sort=ages, title='Age Group'),
-    y=alt.Y('Country:N', title='Country'),
-    color=alt.Color('Rate:Q', 
-                    scale=alt.Scale(type='log', domain=[0.01, 1000], clamp=True),
-                    title='Mortality Rate (per 100k, log scale)'),
-    tooltip=[alt.Tooltip('Rate:Q', title='Mortality Rate')]
+chart = alt.Chart(subset).mark_bar().encode(
+    x=alt.X("Age", sort=ages),
+    y=alt.Y("Rate", title="Mortality rate per 100k"),
+    color="Country",
+    tooltip=["Rate"],
 ).properties(
-    title=f"{cancer} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
-    width=600,
-    height=300
+    title=f"{cancer_type} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
 )
-
-chart
+### P2.5 ###
 
 
 st.altair_chart(chart, use_container_width=True)
