@@ -30,24 +30,19 @@ def load_data():
 
     return df
 
-
-# Uncomment the next line when finished
 df = load_data()
 
 ### P1.2 ###
 
 st.write("## Age-specific cancer mortality rates")
 
-# ### P2.1 ###
-# min_year = int(df['Year'].min())
-# max_year = int(df['Year'].max())
+### P2.1 ###
 
-# # Create a slider for selecting the year, with the default value set to the most recent year
-# year = st.slider('Select a year:', min_value=min_year, max_year=max_year, value=max_year)
+year = st.slider('Year', min_value=1994, max_year=2020, value=2012)
 
-# # Filter the dataframe to the selected year
-# subset = df[df["Year"] == year]
-# ### P2.1 ###
+# Filter the dataframe to the selected year
+subset = df[df["Year"] == year]
+### P2.1 ###
 
 
 # ### P2.2 ###
