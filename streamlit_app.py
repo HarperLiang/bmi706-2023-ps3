@@ -80,19 +80,26 @@ ages = [
     "Age 55-64",
     "Age >64",
 ]
-
-chart = alt.Chart(subset).mark_bar().encode(
-    x=alt.X("Age", sort=ages),
-    y=alt.Y("Rate", title="Mortality rate per 100k"),
-    color="Country",
-    tooltip=["Rate"],
+heatmap = alt.Chart(subset).mark_rect().encode(
+    alt.X('Age:O', sort=['Age <5', 'Age 5-14', 'Age 15-24', 'Age 25-34', 'Age 35-44', 'Age 45-54', 'Age 55-64', 'Age >64']),
+    alt.Y('Country:N'),
+    alt.Color('Rate:Q', scale=alt.Scale(type='log'), title='Mortality rate per 100k'),
+    tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate')]
 ).properties(
     title=f"{cancer_type} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
+    height=300
+)
+
+chart = alt.Chart(subset).mark_bar().encode(
+    x=alt.X('sum(Pop):Q', title='Sum of population size'),
+    y=alt.Y('Country:N', sort='-x'),
+    tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('sum(Pop):Q', title='Population size')]
+).properties(
+    height=300
 )
 ### P2.5 ###
-
-
-st.altair_chart(chart, use_container_width=True)
+combined_chart = alt.vconcat(heatmap, chart)
+st.altair_chart(combined_chart, use_container_width=True)
 
 countries_in_subset = subset["Country"].unique()
 if len(countries_in_subset) != len(countries):
