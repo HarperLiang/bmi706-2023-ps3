@@ -113,8 +113,8 @@ chart = alt.Chart(subset).mark_bar().encode(
 )
 
 ### P2.5 ###
-combined_chart = alt.vconcat(heatmap, chart)
-st.altair_chart(combined_chart, use_container_width=True)
+# combined_chart = alt.vconcat(heatmap, chart)
+st.altair_chart(chart, use_container_width=True)
 
 countries_in_subset = subset["Country"].unique()
 if len(countries_in_subset) != len(countries):
