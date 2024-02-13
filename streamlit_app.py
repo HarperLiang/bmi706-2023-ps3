@@ -101,6 +101,7 @@ chart = alt.Chart(subset).mark_bar().encode(
     y=alt.Y('Country:N', sort='-x'),
     tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('sum(Pop):Q', title='Population size')]
 ).properties(
+    width=600,
     height=300
 )
 
