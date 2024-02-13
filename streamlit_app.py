@@ -67,7 +67,7 @@ cancer_type = st.selectbox('Cancer', options=df['Cancer'].unique())
 
 ### P2.4 ###
 
-subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) & (df['Country'].isin(countries))]
+subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) 
 
 ### P2.5 ###
 ages = [
@@ -80,17 +80,6 @@ ages = [
     "Age 55-64",
     "Age >64",
 ]
-# heatmap_data = df.pivot("Country", "Age", "Rate")
-# heatmap_data = heatmap_data[ages]
-# heatmap_data = heatmap_data.sort_index()
-# plt.figure(figsize=(10, 8))
-# plt.title('Leukaemia mortality rates for females in 2009')
-# sns.heatmap(heatmap_data, annot=True, fmt=".1f", cmap='Blues', cbar_kws={'label': 'Mortality rate per 100k'})
-
-# # Rotate the x-axis labels for better readability
-# plt.xticks(rotation=45, ha='right')
-# plt.yticks(rotation=0)
-
 
 heatmap = alt.Chart(subset).mark_rect().encode(
     alt.X('Age:O', sort=ages),
