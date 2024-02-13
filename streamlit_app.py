@@ -96,13 +96,13 @@ heatmap = alt.Chart(subset).mark_rect().encode(
 )
 st.altair_chart(heatmap, use_container_width=True)
 
-chart = alt.Chart(subset).mark_bar().encode(
-    x=alt.X('sum(Pop):Q', title='Sum of population size'),
-    y=alt.Y('Country:N', sort='-x'),
-    tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('sum(Pop):Q', title='Population size')]
-).properties(
-    height=300
-)
+# chart = alt.Chart(subset).mark_bar().encode(
+#     x=alt.X('sum(Pop):Q', title='Sum of population size'),
+#     y=alt.Y('Country:N', sort='-x'),
+#     tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('sum(Pop):Q', title='Population size')]
+# ).properties(
+#     height=300
+# )
 ### P2.5 ###
 
 combined_chart = alt.vconcat(heatmap, chart)
