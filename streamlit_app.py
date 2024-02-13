@@ -4,7 +4,7 @@ import streamlit as st
 
 ### P1.2 ###
 
-@st.cache_data
+@st.cache
 def load_data():
     cancer_df = pd.read_csv("https://raw.githubusercontent.com/hms-dbmi/bmi706-2022/main/cancer_data/cancer_ICD10.csv").melt(  # type: ignore
         id_vars=["Country", "Year", "Cancer", "Sex"],
@@ -67,7 +67,7 @@ cancer_type = st.selectbox('Cancer', options=df['Cancer'].unique())
 
 ### P2.4 ###
 
-subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) ]
+subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) & (df['Country'].isin(countries))]
 
 ### P2.5 ###
 ages = [
@@ -95,12 +95,13 @@ ages = [
 heatmap = alt.Chart(subset).mark_rect().encode(
     alt.X('Age:O', sort=ages),
     alt.Y('Country:N', sort=alt.EncodingSortField(field='Rate', order='descending')),
-    alt.Color('Rate:Q', scale=alt.Scale(type='log'), legend=alt.Legend(title='Mortality rate per 100k')),
-    tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate')]
+    alt.Color('Rate', scale=alt.Scale(type='log', scheme='viridis'), legend=alt.Legend(title='Mortality rate per 100k')),
+    tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate',format='.2f')]
 ).properties(
     title=f"{cancer_type} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
     height=300
 )
+st.altair_chart(heatmap, use_container_width=True)
 
 chart = alt.Chart(subset).mark_bar().encode(
     x=alt.X('sum(Pop):Q', title='Sum of population size'),
