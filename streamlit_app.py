@@ -67,7 +67,7 @@ cancer_type = st.selectbox('Cancer', options=df['Cancer'].unique())
 
 ### P2.4 ###
 
-subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) & (df['Country'].isin(countries))]
+subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) 
 
 # ### P2.5 ###
 ages = [
@@ -80,11 +80,12 @@ ages = [
     "Age 55-64",
     "Age >64",
 ]
+
 heatmap = alt.Chart(subset).mark_rect().encode(
-    alt.X('Age:O', sort=['Age <5', 'Age 5-14', 'Age 15-24', 'Age 25-34', 'Age 35-44', 'Age 45-54', 'Age 55-64', 'Age >64']),
-    alt.Y('Country:N'),
-    alt.Color('Rate:Q', scale=alt.Scale(type='log'), title='Mortality rate per 100k'),
-    tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate')]
+    alt.X('Age:O', sort=ages),
+    alt.Y('Country:N', title=None),
+    alt.Color('Rate:Q', scale=alt.Scale(type='log'), legend=alt.Legend(title='Mortality rate per 100k')),
+    tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate'), format='.1f')]
 ).properties(
     title=f"{cancer_type} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
     height=300
