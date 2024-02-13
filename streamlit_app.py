@@ -1,7 +1,7 @@
 import altair as alt
 import pandas as pd
 import streamlit as st
-
+import matplotlib.pyplot as plt
 ### P1.2 ###
 
 @st.cache_data
@@ -80,10 +80,21 @@ ages = [
     "Age 55-64",
     "Age >64",
 ]
+# heatmap_data = df.pivot("Country", "Age", "Rate")
+# heatmap_data = heatmap_data[ages]
+# heatmap_data = heatmap_data.sort_index()
+# plt.figure(figsize=(10, 8))
+# plt.title('Leukaemia mortality rates for females in 2009')
+# sns.heatmap(heatmap_data, annot=True, fmt=".1f", cmap='Blues', cbar_kws={'label': 'Mortality rate per 100k'})
+
+# # Rotate the x-axis labels for better readability
+# plt.xticks(rotation=45, ha='right')
+# plt.yticks(rotation=0)
+
 
 heatmap = alt.Chart(subset).mark_rect().encode(
     alt.X('Age:O', sort=ages),
-    alt.Y('Country:N', title=None),
+    alt.Y('Country:N', sort=alt.EncodingSortField(field='Rate', order='descending')),
     alt.Color('Rate:Q', scale=alt.Scale(type='log'), legend=alt.Legend(title='Mortality rate per 100k')),
     tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate')]
 ).properties(
