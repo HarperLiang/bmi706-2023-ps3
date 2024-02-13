@@ -88,21 +88,13 @@ ages = [
 heatmap = alt.Chart(subset).mark_rect().encode(
     alt.X('Age:O', sort=ages),
     alt.Y('Country:N', sort=alt.EncodingSortField(field='Rate', order='descending')),
-    alt.Color('Rate', scale=alt.Scale(type='log', domain=(0.01,1000), clamp=True), legend=alt.Legend(title='Mortality rate per 100k')),
+    alt.Color('Rate', scale=alt.Scale(type='log', domain=(0.01,100), clamp=True), legend=alt.Legend(title='Mortality rate per 100k')),
     tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate',format='.2f')]
 ).properties(
     title=f"{cancer_type} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
+    width=600,
     height=300
 )
-# # st.altair_chart(heatmap, use_container_width=True)
-# # chart = alt.Chart(subset).mark_bar().encode(
-# #     x=alt.X('sum(Pop):Q', title='Sum of population size'),
-# #     y=alt.Y('Country:N', sort='-x'),
-# #     tooltip=[alt.Tooltip('Country:N'), alt.Tooltip('Age:O'), alt.Tooltip('Rate:Q', title='Mortality rate',format='.2f')]
-# # ).properties(
-# #     title=f"{cancer_type} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
-# #     height=300
-# # )
 
 chart = alt.Chart(subset).mark_bar().encode(
     x=alt.X('sum(Pop):Q', title='Sum of population size'),
