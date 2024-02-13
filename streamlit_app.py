@@ -39,6 +39,7 @@ st.write("## Age-specific cancer mortality rates")
 ### P2.1 ###
 
 year = st.slider('Year', min_value=int(df['Year'].min()), max_value=int(df['Year'].max()), value=int(df['Year'].max()), step=1, format='%d')
+subset = df[df["Year"] == year]
 
 ### P2.1 ###
 
@@ -46,6 +47,7 @@ year = st.slider('Year', min_value=int(df['Year'].min()), max_value=int(df['Year
 ### P2.2 ###
 
 sex = st.radio("Sex", options=df['Sex'].unique())
+subset = subset[subset["Sex"] == sex]
 
 ### P2.2 ###
 
@@ -57,6 +59,7 @@ country_list = df['Country'].unique()
 countries = st.multiselect("Countries", options=country_list, default=[
     "Austria", "Germany", "Iceland", "Spain", "Sweden", "Thailand", "Turkey"
 ])
+subset = subset[subset["Country"].isin(countries)]
 
 ### P2.3 ###
 
@@ -64,10 +67,11 @@ countries = st.multiselect("Countries", options=country_list, default=[
 ### P2.4 ###
 
 cancer_type = st.selectbox('Cancer', options=df['Cancer'].unique())
+subset = subset[subset["Cancer"] == cancer_type]
 
 ### P2.4 ###
 
-subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) ]
+# subset = df[(df['Year'] == year) & (df['Sex'] == sex) & (df['Cancer'] == cancer_type) ]
 
 ### P2.5 ###
 ages = [
@@ -100,6 +104,7 @@ chart = alt.Chart(subset).mark_bar().encode(
     height=300
 )
 ### P2.5 ###
+
 combined_chart = alt.vconcat(heatmap, chart)
 st.altair_chart(combined_chart, use_container_width=True)
 
