@@ -97,7 +97,6 @@ heatmap = alt.Chart(subset).mark_rect().encode(
     height=300
 )
 
-
 chart = alt.Chart(subset).mark_bar().encode(
     x=alt.X('sum(Pop):Q', title='Sum of population size'),
     y=alt.Y('Country:N', sort='-x'),
