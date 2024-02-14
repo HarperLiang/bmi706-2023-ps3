@@ -96,21 +96,6 @@ heatmap = alt.Chart(subset).mark_rect().encode(
     height=300
 )
 
-heatmap = alt.Chart(subset).mark_rect().encode(
-    x=alt.X("Age:O", sort=ages, title=None),
-    y=alt.Y("Country:N", title=None),
-    color=alt.Color("Rate:Q", title="Mortality rate per 100k", scale=alt.Scale(type='log', domain=[0.01, 1000], clamp=True)),
-    tooltip=["Rate:Q"],
-).properties(
-    title=f"{selected_cancer} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
-)
-st.altair_chart(heatmap, use_container_width=True)
-
-bar_chart = alt.Chart(subset).mark_bar().encode(
-    x=alt.X("sum(Pop):Q", title="Sum of population size", axis=alt.Axis(values=[0, 10000000, 20000000, 30000000, 40000000])),
-    y=alt.Y("Country:N", sort='-x', title=None),
-    tooltip=["sum(Pop):Q"],
-)
 
 chart = alt.Chart(subset).mark_bar().encode(
     x=alt.X('sum(Pop):Q', title='Sum of population size'),
